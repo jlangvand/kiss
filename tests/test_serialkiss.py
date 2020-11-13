@@ -50,7 +50,7 @@ class SerialKISSTestCase(kiss_test_classes.KISSTestClass):
             aprs.Callsign(self.random(6)),
             aprs.Callsign(self.random(6))
         ]
-        frame.text = ' '.join([
+        frame.info = ' '.join([
             self.random(), 'test_write', self.random()])
 
         self._logger.debug('frame="%s"', frame)
@@ -70,7 +70,7 @@ class SerialKISSTestCase(kiss_test_classes.KISSTestClass):
             aprs.Callsign(self.random(6)),
             aprs.Callsign(self.random(6))
         ]
-        frame.text = ' '.join([
+        frame.set_info = ' '.join([
             self.random(), 'test_write_and_read', self.random()])
 
         self._logger.debug('frame="%s"', frame)

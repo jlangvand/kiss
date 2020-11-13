@@ -80,14 +80,8 @@ class KISS(object):
         if isinstance(value, int):
             value = chr(value)
 
-        return self.interface.write(
-            b''.join([
-                kiss.FEND,
-                bytes(getattr(kiss, name.upper())),
-                kiss.escape_special_codes(value),
-                kiss.FEND
-            ])
-        )
+        return self.write(
+            command=bytes(getattr(kiss, name.upper())), frame=value)
 
     def read(self, read_bytes=None, callback=None, readmode=True):  # NOQA pylint: disable=R0912
         """
@@ -124,8 +118,9 @@ class KISS(object):
                 frames = []
                 escape_mode = False
 
-                for b in read_data:
-                    if b == kiss.FEND and len(read_buffer):
+                for _b in read_data:
+                    b = int.to_bytes(_b, length=1, byteorder='big')
+                    if b == kiss.FEND:
                         frames.append(read_buffer)
                         read_buffer = bytes()
                     elif escape_mode:
@@ -153,7 +148,7 @@ class KISS(object):
                 elif not readmode:
                     return frames
 
-    def write(self, frame):
+    def write(self, frame, command = kiss.DATA_FRAME):
         """
         Writes frame to KISS interface.
 
@@ -161,16 +156,25 @@ class KISS(object):
         """
         self._logger.debug('frame(%s)="%s"', len(frame), frame)
 
-        frame_escaped = kiss.escape_special_codes(frame)
+        frame_escaped = bytes()
+        for _b in frame:
+            #  b = _b.encode()
+            if isinstance(_b, str):
+                b = bytes(_b, 'latin')
+            elif isinstance(_b, int):
+                b = bytes(chr(_b), 'latin')
+            else:
+                b = _b
+            if b == kiss.FEND:
+                frame_escaped += kiss.FESC_TFEND
+            elif b == kiss.FESC:
+                frame_escaped += kiss.FESC_TFESC
+            else:
+                frame_escaped += b
         self._logger.debug(
             'frame_escaped(%s)="%s"', len(frame_escaped), frame_escaped)
 
-        frame_kiss = ''.join([
-            kiss.FEND,
-            kiss.DATA_FRAME,
-            frame_escaped,
-            kiss.FEND
-        ])
+        frame_kiss = kiss.FEND + command + frame_escaped + kiss.FEND
         self._logger.debug(
             'frame_kiss(%s)="%s"', len(frame_kiss), frame_kiss)
 
