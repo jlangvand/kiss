@@ -1,11 +1,13 @@
-orbitntnu-kiss - Python KISS Module - modified by Joakim S. Langvand LA2DIA for [Orbit NTNU](https://git.orbitntnu.no/selfiesat/satcom)
+orbitntnu-kiss - Python KISS Module
 *************************
+
+Modified by Joakim S. Langvand LA2DIA for `Orbit NTNU <https://git.orbitntnu.no/selfiesat/satcom>`_.
 
 kiss is a Python Module that implements the `KISS Protocol <https://en.wikipedia.org/wiki/KISS_(TNC)>`_ for
 communicating with KISS-enabled devices (such as Serial or TCP TNCs).
 
 Two modifications has been made in this fork:
-- Escaping and restoring FEND and FESC codes comforms better with the [KISS spec](http://www.ax25.net/kiss.aspx).
+- Escaping and restoring FEND and FESC codes comforms better with the `KISS spec <http://www.ax25.net/kiss.asp>`_.
 - Added support for arbitary commands to be written to the interface, for devices using non-standard command bytes for configuration. See examples.
 
 
@@ -18,7 +20,7 @@ Versions
 
 Installation
 ============
-Install from pypi using pip: ``pip install kiss``
+Install from pypi using pip: ``pip install orbitntnu-kiss``
 
 
 Usage Examples
