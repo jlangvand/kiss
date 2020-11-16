@@ -20,7 +20,7 @@ Versions
 
 Installation
 ============
-Install from pypi using pip: ``pip install orbitntnu-kiss``
+Install from pypi using pip: ``pip install git+https://github.com/jlangvand/kiss``
 
 
 Usage Examples
