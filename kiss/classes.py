@@ -99,6 +99,7 @@ class KISS(object):
             read_bytes, callback, readmode)
 
         read_buffer = bytes()
+        read_bytes = read_bytes or kiss.READ_BYTES
 
         while 1:
             read_data = self._read_handler(read_bytes)
@@ -119,7 +120,7 @@ class KISS(object):
                 escape_mode = False
 
                 for _b in read_data:
-                    b = int.to_bytes(_b, length=1, byteorder='big')
+                    b = bytes(chr(_b), 'latin')
                     if b == kiss.FEND:
                         frames.append(read_buffer)
                         read_buffer = bytes()
@@ -148,7 +149,7 @@ class KISS(object):
                 elif not readmode:
                     return frames
 
-    def write(self, frame, command = kiss.DATA_FRAME):
+    def write(self, frame = b'', command = kiss.DATA_FRAME):
         """
         Writes frame to KISS interface.
 

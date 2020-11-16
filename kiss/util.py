@@ -39,8 +39,8 @@ def recover_special_codes(escaped_codes):
     """
     frame = bytes()
     escape_mode = False
-    for b in escaped_codes:
-        b = int.to_bytes(b, length=1, byteorder='big')
+    for _b in escaped_codes:
+        b = bytes(chr(_b), 'latin')
         if escape_mode:
             if b == kiss.TFEND:
                 frame += kiss.FEND
