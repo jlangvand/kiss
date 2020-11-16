@@ -7,6 +7,7 @@ kiss is a Python Module that implements the `KISS Protocol <https://en.wikipedia
 communicating with KISS-enabled devices (such as Serial or TCP TNCs).
 
 Two modifications has been made in this fork:
+
 * Escaping and restoring FEND and FESC codes comforms better with the `KISS spec <http://www.ax25.net/kiss.asp>`_.
 * Added support for arbitary commands to be written to the interface, for devices using non-standard command bytes for configuration. See examples.
 
