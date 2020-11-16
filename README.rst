@@ -1,14 +1,20 @@
-kiss - Python KISS Module
+orbitntnu-kiss - Python KISS Module - modified by Joakim S. Langvand LA2DIA for [Orbit NTNU](https://git.orbitntnu.no/selfiesat/satcom)
 *************************
 
-kiss is a Python Module that implementations the `KISS Protocol <https://en.wikipedia.org/wiki/KISS_(TNC)>`_ for
+kiss is a Python Module that implements the `KISS Protocol <https://en.wikipedia.org/wiki/KISS_(TNC)>`_ for
 communicating with KISS-enabled devices (such as Serial or TCP TNCs).
+
+Two modifications has been made in this fork:
+- Escaping and restoring FEND and FESC codes comforms better with the [KISS spec](http://www.ax25.net/kiss.aspx).
+- Added support for arbitary commands to be written to the interface, for devices using non-standard command bytes for configuration. See examples.
+
 
 Versions
 ========
 
 - 6.5.x branch will be the last version of this Module that supports Python 2.7.x
 - 7.x.x branch and-on will be Python 3.x ONLY.
+
 
 Installation
 ============
@@ -26,6 +32,17 @@ Read & print frames from a TNC connected to '/dev/ttyUSB0' at 1200 baud::
     k = kiss.SerialKISS('/dev/ttyUSB0', 1200)
     k.start()  # inits the TNC, optionally passes KISS config flags.
     k.read(callback=p)  # reads frames and passes them to `p`.
+
+Write nonstandard command to TNC::
+
+    import kiss
+
+    #  Open connection to Nanoavionics Sat2RF1
+    k = kiss.SerialKISS('/dev/ttyUSB0', 115200)
+    k.start()
+    
+    k.write(command=b'\x21')  # Get frequency
+    k.write(command=b'\x25', frame=b'\x00\x00\x00\x00')  # Send ping
 
 
 See also: examples/ directory.
@@ -76,7 +93,7 @@ Develop:
 
 Source
 ======
-Github: https://github.com/ampledata/kiss
+Original project: https://github.com/ampledata/kiss
 
 Author
 ======
